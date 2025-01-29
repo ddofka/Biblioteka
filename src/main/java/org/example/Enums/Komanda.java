@@ -1,12 +1,14 @@
 package org.example.Enums;
 
 public enum Komanda {
-    ADD_BOOK(1,"[1] - add book to the library"),
-    SEARCH_BOOK(2,"[2] - search for the book"),
-    BORROW_BOOK(3,"[3] - borrow the book"),
-    RETURN_BOOK(4,"[4] - return the book"),
-    SAVE_TO_JSON(5,"[5] - save library to file"),
-    IMPORT_FROM_JSON(7,"[7] - import library status JSON file"),
+    ADD_BOOK(1,"[1] - add book('s) to the library"),
+    PRINT_LIBRARY(2,"[2] - print library books"),
+    SEARCH_BOOK(3,"[3] - search for the book"),
+    BORROW_BOOK(4,"[4] - borrow the book"),
+    RETURN_BOOK(5,"[5] - return the book"),
+    SAVE_TO_JSON(6,"[6] - save library to file"),
+    IMPORT_FROM_JSON(7,"[7] - import book library from [.JSON] file"),
+    REMOVE_TITLE(8,"[8] - remove book by title"),
     EXIT_PROGRAM(9,"[9] - exit program");
 
     private int key;
@@ -19,7 +21,7 @@ public enum Komanda {
 
     public static void printCommands(){
         for (Komanda c: Komanda.values()){
-            System.out.printf("| %-40s|%n",c.getDescription());
+            System.out.printf("| %-45s|%n",c.getDescription());
         }
     }
 

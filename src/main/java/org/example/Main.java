@@ -1,40 +1,86 @@
 package org.example;
 
 import org.example.Enums.Komanda;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         Scanner sc = new Scanner(System.in);
         boolean isActive = true;
         Library library = new Library();
+        String initialLibrary = "biblioteka";
+        library.loadFromFile(initialLibrary);
 
-        while (isActive){
-            // - here should be library update from file.
+        while (isActive) {
             System.out.println("-".repeat(43));
             Komanda.printCommands();
             System.out.println("-".repeat(43));
             System.out.println("Input command:");
-            switch (Komanda.ofKey(Integer.parseInt(sc.nextLine()))){
-                case null -> System.out.println("ERROR: unknown command");
+            switch (Komanda.ofKey(Integer.parseInt(sc.nextLine()))) {
                 case ADD_BOOK -> {
+                    while (true) {
+                        System.out.println("--- RETURN TO MENU ENTER 'x': ");
+                        System.out.println("Enter book title:");
+                        String title = sc.nextLine();
+                        if (title.equalsIgnoreCase("x")) {
+                            break;
+                        }
+                        System.out.println("Enter book author:");
+                        String author = sc.nextLine();
+                        library.addBooks(new Library.Book(title, author));
+                    }
                 }
+                case PRINT_LIBRARY -> library.listBooks();
                 case SEARCH_BOOK -> {
+                    System.out.println("Enter book title to search for : ");
+                    String titleToSearch = sc.nextLine();
+                    library.searchBooks(titleToSearch);
                 }
                 case BORROW_BOOK -> {
+                    System.out.println("Enter book title to borrow:");
+                    String bookToBorrow = sc.nextLine();
+                    library.borrowBook(bookToBorrow);
                 }
                 case RETURN_BOOK -> {
+                    System.out.println("Enter book title to return:");
+                    String bookToReturn = sc.nextLine();
+                    library.returnBook(bookToReturn);
                 }
                 case SAVE_TO_JSON -> {
+                    System.out.println("Enter filename to save as:");
+                    try {
+                        String fileName = sc.nextLine();
+                        library.saveToFile(fileName);
+                    } catch (InputMismatchException | FileNotFoundException e) {
+                        System.out.println("ERROR: invalid filename format!");
+                    }
                 }
                 case IMPORT_FROM_JSON -> {
+                    System.out.println("Enter filename to load from:");
+                    try {
+                        String fileLoad = sc.nextLine();
+                        library.loadFromFile(fileLoad);
+                    } catch (InputMismatchException | FileNotFoundException e) {
+                        System.out.println("ERROR: invalid filename format!");
+                    }
+                }
+                case REMOVE_TITLE -> {
+                    System.out.println("Enter book title to delete: ");
+                    String bookToDelete = sc.nextLine();
+                    library.deleteBookByTitle(bookToDelete);
                 }
                 case EXIT_PROGRAM -> {
                     // - here should be library update to file. (same file)
+                    library.saveToFile(initialLibrary);
                     System.out.println("Program is closing...");
                     isActive = false;
                 }
+                case null -> System.out.println("ERROR: unknown command");
             }
         }
         sc.close();
