@@ -28,8 +28,13 @@ public class Library {
             this.author = author;
         }
 
-        public void markAsBorrowed() {this.isAvailable = false;}
-        public void markAsReturned() {this.isAvailable = true;}
+        public void markAsBorrowed() {
+            this.isAvailable = false;
+        }
+
+        public void markAsReturned() {
+            this.isAvailable = true;
+        }
 
         @Override
         public String toString() {
@@ -44,7 +49,9 @@ public class Library {
             this.title = title;
         }
 
-        public String getAuthor() { return author; }
+        public String getAuthor() {
+            return author;
+        }
 
         public void setAuthor(String author) {
             this.author = author;
@@ -59,64 +66,69 @@ public class Library {
         }
     }
 
-    void addBooks(Book...books){
-        for (Book book:books){
+    void addBooks(Book... books) {
+        for (Book book : books) {
             bookList.add(book);
             System.out.println("Book '" + book.getTitle() + "' was added.");
         }
     }
-    void listBooks(){
-        for (Book book:bookList){
+
+    void listBooks() {
+        for (Book book : bookList) {
             System.out.println(book.toString());
         }
     }
-    void searchBooks(String title){
+
+    void searchBooks(String title) {
         List<Book> booksFound = new ArrayList<>();
-        for (Book book:bookList){
+        for (Book book : bookList) {
             String titleLoweredCase = book.getTitle().toLowerCase();
-            if (titleLoweredCase.contains(title.toLowerCase())){
+            if (titleLoweredCase.contains(title.toLowerCase())) {
                 booksFound.add(book);
             }
         }
-        if (booksFound.isEmpty()){
-            System.out.println("There is no book by the title: " + "["+title+"]");
-        }
-        else {
-            System.out.println("Books found by given title: " + "["+title+"]");
+        if (booksFound.isEmpty()) {
+            System.out.println("There is no book by the title: " + "[" + title + "]");
+        } else {
+            System.out.println("Books found by given title: " + "[" + title + "]");
             System.out.println("-".repeat(15));
             booksFound.forEach(System.out::println);
         }
     }
-    void deleteBookByTitle(String title){
-        for (Book book:bookList){
-            if (book.getTitle().equalsIgnoreCase(title)){
-                System.out.println(book.toString() + " - deleted.");
+
+    void deleteBookByTitle(String title) {
+        for (Book book : bookList) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
+                System.out.println(book + " - deleted.");
                 bookList.remove(book);
                 return;
             }
         }
-        System.out.println("There is no book by the title: " + "["+title+"]");
+        System.out.println("There is no book by the title: " + "[" + title + "]");
     }
-    void borrowBook(String title){
-        for (Book book:bookList){
-            if (book.getTitle().equalsIgnoreCase(title)){
+
+    void borrowBook(String title) {
+        for (Book book : bookList) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
                 book.markAsBorrowed();
-                System.out.println(book.toString());
+                System.out.println(book);
                 return;
             }
         }
-        System.out.println("There is no book by this title: " + "["+title+"]");
+        System.out.println("There is no book by this title: " + "[" + title + "]");
     }
-    void returnBook(String title){
-        for (Book book:bookList){
-            if (book.getTitle().equalsIgnoreCase(title)){
+
+    void returnBook(String title) {
+        for (Book book : bookList) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
                 book.markAsReturned();
-                System.out.println(book.toString());
+                System.out.println(book);
                 return;
             }
         }
-        System.out.println("There is no book by this title: " + "["+title+"]");
+        System.out.println("There is no book by this title: " + "[" + title + "]");
     }
+
     void saveToFile(String filename) throws IOException {
         StringBuilder sb = new StringBuilder("src/main/java/org/example/");
         sb.append(filename);
@@ -125,9 +137,10 @@ public class Library {
         File file = new File(parseFileName);
         ObjectMapper mapper = new ObjectMapper();
         ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
-        writer.writeValue(file,bookList);
+        writer.writeValue(file, bookList);
         System.out.println("Writing to file was successful!");
     }
+
     void loadFromFile(String filename) throws IOException {
         StringBuilder sb = new StringBuilder("src/main/java/org/example/");
         sb.append(filename);
@@ -135,8 +148,9 @@ public class Library {
         String parseFileName = sb.toString();
         File file = new File(parseFileName);
         ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
-        List<Book> fromJson = mapper.readValue(file, new TypeReference<List<Book>>(){});
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        List<Book> fromJson = mapper.readValue(file, new TypeReference<List<Book>>() {
+        });
         bookList.clear();
         bookList.addAll(fromJson);
         System.out.println("Loading from file was successful!");

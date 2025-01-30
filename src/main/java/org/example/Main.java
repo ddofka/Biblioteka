@@ -37,25 +37,21 @@ public class Main {
                 }
                 case PRINT_LIBRARY -> library.listBooks();
                 case SEARCH_BOOK -> {
-                    System.out.println("Enter book title to search for : ");
-                    String titleToSearch = sc.nextLine();
-                    library.searchBooks(titleToSearch);
+                    System.out.println("Enter the book title to search:");
+                    library.searchBooks(String.valueOf(sc.nextLine()));
                 }
                 case BORROW_BOOK -> {
-                    System.out.println("Enter book title to borrow:");
-                    String bookToBorrow = sc.nextLine();
-                    library.borrowBook(bookToBorrow);
+                    System.out.println("Enter the complete book title to borrow:");
+                    library.borrowBook(String.valueOf(sc.nextLine()));
                 }
                 case RETURN_BOOK -> {
-                    System.out.println("Enter book title to return:");
-                    String bookToReturn = sc.nextLine();
-                    library.returnBook(bookToReturn);
+                    System.out.println("Enter the complete book title to return:");
+                    library.returnBook(String.valueOf(sc.nextLine()));
                 }
                 case SAVE_TO_JSON -> {
                     System.out.println("Enter filename to save as:");
                     try {
-                        String fileName = sc.nextLine();
-                        library.saveToFile(fileName);
+                        library.saveToFile(String.valueOf(sc.nextLine()));
                     } catch (InputMismatchException | FileNotFoundException e) {
                         System.out.println("ERROR: invalid filename format!");
                     }
@@ -63,19 +59,16 @@ public class Main {
                 case IMPORT_FROM_JSON -> {
                     System.out.println("Enter filename to load from:");
                     try {
-                        String fileLoad = sc.nextLine();
-                        library.loadFromFile(fileLoad);
+                        library.loadFromFile(String.valueOf(sc.nextLine()));
                     } catch (InputMismatchException | FileNotFoundException e) {
                         System.out.println("ERROR: invalid filename format!");
                     }
                 }
                 case REMOVE_TITLE -> {
                     System.out.println("Enter book title to delete: ");
-                    String bookToDelete = sc.nextLine();
-                    library.deleteBookByTitle(bookToDelete);
+                    library.deleteBookByTitle(String.valueOf(sc.nextLine()));
                 }
                 case EXIT_PROGRAM -> {
-                    // - here should be library update to file. (same file)
                     library.saveToFile(initialLibrary);
                     System.out.println("Program is closing...");
                     isActive = false;
