@@ -44,9 +44,7 @@ public class Library {
             this.title = title;
         }
 
-        public String getAuthor() {
-            return author;
-        }
+        public String getAuthor() { return author; }
 
         public void setAuthor(String author) {
             this.author = author;
@@ -73,14 +71,21 @@ public class Library {
         }
     }
     void searchBooks(String title){
+        List<Book> booksFound = new ArrayList<>();
         for (Book book:bookList){
-            if (book.getTitle().equalsIgnoreCase(title)){
-                System.out.println("Book was found!");
-                System.out.println(book.toString());
-                return;
+            String titleLoweredCase = book.getTitle().toLowerCase();
+            if (titleLoweredCase.contains(title.toLowerCase())){
+                booksFound.add(book);
             }
         }
-        System.out.println("There is no book by the title: " + title);
+        if (booksFound.isEmpty()){
+            System.out.println("There is no book by the title: " + "["+title+"]");
+        }
+        else {
+            System.out.println("Books found by given title: " + "["+title+"]");
+            System.out.println("-".repeat(15));
+            booksFound.forEach(System.out::println);
+        }
     }
     void deleteBookByTitle(String title){
         for (Book book:bookList){
@@ -90,7 +95,7 @@ public class Library {
                 return;
             }
         }
-        System.out.println("There is no book by the title: " + title);
+        System.out.println("There is no book by the title: " + "["+title+"]");
     }
     void borrowBook(String title){
         for (Book book:bookList){
@@ -100,7 +105,7 @@ public class Library {
                 return;
             }
         }
-        System.out.println("There is no book by this title: " + title);
+        System.out.println("There is no book by this title: " + "["+title+"]");
     }
     void returnBook(String title){
         for (Book book:bookList){
@@ -110,7 +115,7 @@ public class Library {
                 return;
             }
         }
-        System.out.println("There is no book by this title: " + title);
+        System.out.println("There is no book by this title: " + "["+title+"]");
     }
     void saveToFile(String filename) throws IOException {
         StringBuilder sb = new StringBuilder("src/main/java/org/example/");
